@@ -1,0 +1,12 @@
+@baseURL = http://localhost:3000
+
+# @name createEventIfOrganizer
+POST {{baseURL}}/events/create-event/764e130e-fac6-4327-aeb3-9e6223457d37
+Content-Type: application/json
+
+{
+    "maxParticipants": 3,
+    "eventName": "Festival de pipa",
+    "location": "Rua das flores",
+    "description": "Pequeno campeonato de pipas"
+}

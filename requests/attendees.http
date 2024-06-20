@@ -1,0 +1,10 @@
+@baseURL = http://localhost:3000
+
+# @name verifyParticipantAndRegisterEvent
+POST {{baseURL}}/attendees/register-event
+Content-Type: application/json
+
+{
+    "participantId": "143157b0-0dbf-46a0-b78e-4b856d0b273e",
+    "eventId": "ad111985-d8e8-45d7-8cd6-cee13f2f9939"
+}
