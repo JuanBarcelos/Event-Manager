@@ -1,5 +1,5 @@
+import { Comments } from 'src/comments/entities/comment.entity';
 import { Participants } from 'src/participants/entities/participant.entity';
-import { Comment } from 'src/reviews/entities/review.entity';
 
 export class Event {
   id: string;
@@ -12,5 +12,5 @@ export class Event {
   createdAt?: Date;
   updatedAt?: Date;
   participants?: Participants[];
-  comments?: Comment[];
+  comments?: Comments[];
 }

@@ -1,7 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateOrganizerDto } from './dto/create-organizer.dto';
 import { OrganizersRepository } from './organizers.repository';
 import { UpdateOrganizerDto } from './dto/update-organizer.dto';
+import { Organizers } from './entities/organizer.entity';
 
 @Injectable()
 export class OrganizersService {
@@ -14,19 +15,12 @@ export class OrganizersService {
   }
 
   async update(id: string, _updateOrganizerDto: UpdateOrganizerDto) {
-    const organizerExists = await this.organizersRepository.findUserById(id);
+    const data = _updateOrganizerDto;
+    await this.organizersRepository.update(id, data);
+  }
 
-    if (organizerExists) {
-      const data = _updateOrganizerDto;
-
-      const updateOrganizer = await this.organizersRepository.update(
-        organizerExists.userId,
-        data,
-      );
-
-      return updateOrganizer;
-    } else {
-      throw new BadRequestException('This e-mail is already registered.');
-    }
+  async findByUnique(userId: string): Promise<Organizers> {
+    const organizer = this.organizersRepository.findUserById(userId);
+    return organizer;
   }
 }

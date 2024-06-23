@@ -1,11 +1,5 @@
 @baseURL = http://localhost:3000
 
-# @name update-organizer
-PATCH {{baseURL}}/organizers/764e130e-fac6-4327-aeb3-9e6223457d37
+# @name find-organizer
+GET {{baseURL}}/organizers/764e130e-fac6-4327-aeb3-9e6223457d37
 Content-Type: application/json
-
-{
-    "bio": "Sou o organizdor desta API",
-    "website": "juanbarcelos1@gmail.com",
-    "organizationName": "EMR"
-}

@@ -6,6 +6,7 @@ import { User } from './entities/user.entity';
 import { UserRole } from './entities/user.enum';
 import { OrganizersService } from 'src/organizers/organizers.service';
 import { ParticipantsService } from 'src/participants/participants.service';
+import { UpdateUserProfile } from './dto/update-profile.dto';
 
 @Injectable()
 export class UsersService {
@@ -46,4 +47,49 @@ export class UsersService {
 
     return newUser;
   }
+
+  async update(
+    userId: string,
+    _updateUserProfile: UpdateUserProfile,
+  ): Promise<any> {
+    const { fullName, userName, email, bio, organizationName, website } =
+      _updateUserProfile;
+
+    const participantExists =
+      await this.participantsService.findByUnique(userId);
+
+    if (participantExists) {
+      await this.participantsService.update(participantExists.userId, {
+        bio,
+        website,
+      });
+
+      const userUpdate = await this.userRepository.updateUserProfile(userId, {
+        userName,
+        email,
+        fullName,
+      });
+
+      return userUpdate;
+    } else {
+      const organizerExists = await this.organizersService.findByUnique(userId);
+
+      if (organizerExists) {
+        await this.organizersService.update(organizerExists.userId, {
+          bio,
+          organizationName,
+          website,
+        });
+
+        const userUpdate = await this.userRepository.updateUserProfile(userId, {
+          userName,
+          email,
+          fullName,
+        });
+
+        return userUpdate;
+      }
+    }
+  }
 }
+// throw new BadRequestException('This e-mail is already registered.');

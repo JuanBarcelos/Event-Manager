@@ -1,7 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateParticipantDto } from './dto/create-participant.dto';
 import { ParticipantsRepository } from './participants.repository';
 import { UpdateParticipantDto } from './dto/update-participant.dto';
+import { Participants } from './entities/participant.entity';
 
 @Injectable()
 export class ParticipantsService {
@@ -16,20 +17,12 @@ export class ParticipantsService {
   }
 
   async update(id: string, _updateParticipantDto: UpdateParticipantDto) {
-    const participantExists =
-      await this.participantsRepository.findUserById(id);
+    const data = _updateParticipantDto;
+    await this.participantsRepository.update(id, data);
+  }
 
-    if (participantExists) {
-      const data = _updateParticipantDto;
-
-      const updateOrganizer = await this.participantsRepository.update(
-        participantExists.userId,
-        data,
-      );
-
-      return updateOrganizer;
-    } else {
-      throw new BadRequestException('This participant is not registered.');
-    }
+  async findByUnique(userId: string): Promise<Participants> {
+    const participant = this.participantsRepository.findUserById(userId);
+    return participant;
   }
 }

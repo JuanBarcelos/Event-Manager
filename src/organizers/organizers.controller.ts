@@ -1,7 +1,6 @@
-import { Controller, Post, Body, Patch, Param } from '@nestjs/common';
+import { Controller, Post, Body, Param, Get } from '@nestjs/common';
 import { OrganizersService } from './organizers.service';
 import { CreateOrganizerDto } from './dto/create-organizer.dto';
-import { UpdateOrganizerDto } from './dto/update-organizer.dto';
 
 @Controller('organizers')
 export class OrganizersController {
@@ -12,11 +11,8 @@ export class OrganizersController {
     return this.organizersService.create(createOrganizerDto);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateOrganizerDto: UpdateOrganizerDto,
-  ) {
-    return this.organizersService.update(id, updateOrganizerDto);
+  @Get(':userId')
+  findUniqueParticipant(@Param('userId') userId: string) {
+    return this.organizersService.findByUnique(userId);
   }
 }
