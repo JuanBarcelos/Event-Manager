@@ -3,7 +3,7 @@ Event Manager é uma plataforma para gerenciamento e participação em eventos c
 
 ## Tecnologias Utilizadas
 
-- Node.js
+- Nestjs
 - Express.js
 - Prisma ORM
 - SQLite (Banco de Dados)
