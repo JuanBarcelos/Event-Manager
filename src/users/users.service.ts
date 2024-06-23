@@ -7,6 +7,7 @@ import { UserRole } from './entities/user.enum';
 import { OrganizersService } from 'src/organizers/organizers.service';
 import { ParticipantsService } from 'src/participants/participants.service';
 import { UpdateUserProfile } from './dto/update-profile.dto';
+import { DeleteUserAccount } from './dto/delete-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -91,5 +92,21 @@ export class UsersService {
       }
     }
   }
+
+  async deleteAccount(
+    _userId: string,
+    _requestBody: DeleteUserAccount,
+  ): Promise<void> {
+    const { email } = _requestBody;
+
+    const userWithExistingEmail = await this.userRepository.findByEmail(email);
+
+    if (userWithExistingEmail !== null) {
+      return await this.userRepository.deleteUserAccount(_userId);
+    }
+
+    throw new BadRequestException(
+      'This email does not exist, try with an email already registered.',
+    );
+  }
 }
-// throw new BadRequestException('This e-mail is already registered.');

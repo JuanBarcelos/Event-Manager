@@ -5,10 +5,10 @@ POST {{baseURL}}/users
 Content-Type: application/json
 
 {
-    "userName":"juanBarcelos",
-    "email":"juanbarcelos2@gmail.com",
+    "userName":"Beatriz",
+    "email":"Beatriz@gmail.com",
     "password":"032194Jb",
-    "fullName":"Juan Barcelos",
+    "fullName":"Beatriz",
     "role": "attendees"
 }
 
@@ -40,4 +40,14 @@ Content-Type: application/json
     "bio": "Esta sendo dificil fazer esta API",
     "website": "www.juan.com.br",
     "organizationName": ""
+}
+
+###
+
+# @name delete-user-account
+DELETE {{baseURL}}/users/delete/account/2f5b268d-e330-42c6-9172-b1e87319618e
+Content-Type: application/json
+
+{
+    "email":"Beatriz@gmail.com"
 }

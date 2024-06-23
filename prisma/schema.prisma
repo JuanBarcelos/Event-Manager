@@ -33,7 +33,7 @@ model Organizers {
   website          String?
   organizationName String? @map("organization_name")
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("organizers")
 }
@@ -44,7 +44,7 @@ model Participants {
   bio     String?
   website String?
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("participants")
 }
@@ -63,7 +63,7 @@ model Event {
   participants Attendees[]
   comments     Comment[]
 
-  organizer User @relation(fields: [organizerId], references: [id])
+  organizer User @relation(fields: [organizerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("events")
 }
@@ -74,8 +74,8 @@ model Attendees {
   participantId    String   @map("participant_id")
   registrationDate DateTime @default(now()) @map("registration_date")
 
-  event       Event @relation(fields: [eventId], references: [id])
-  participant User  @relation(fields: [participantId], references: [id])
+  event       Event @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  participant User  @relation(fields: [participantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([eventId, participantId], name: "Unique_Event_Participant")
   @@map("attendeees")
@@ -88,8 +88,8 @@ model Comment {
   commentText String   @map("comment_text")
   createdAt   DateTime @default(now()) @map("created_at")
 
-  user  User  @relation(fields: [userId], references: [id])
-  event Event @relation(fields: [eventId], references: [id])
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("comments")
 }
