@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Param } from '@nestjs/common';
+import { Controller, Post, Body, Param, Get, Put } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
+import { UpdateEventDto } from './dto/update-event.dto';
 
 @Controller('events')
 export class EventsController {
@@ -12,5 +13,15 @@ export class EventsController {
     @Body() createEventDto: CreateEventDto,
   ) {
     return this.eventsService.verifyOrganizerAndCreateEvent(id, createEventDto);
+  }
+
+  @Get()
+  findAll() {
+    return this.eventsService.findAll();
+  }
+
+  @Put('update/:id')
+  update(@Param('id') id: string, @Body() requestBody: UpdateEventDto) {
+    return this.eventsService.updateEvent(id, requestBody);
   }
 }

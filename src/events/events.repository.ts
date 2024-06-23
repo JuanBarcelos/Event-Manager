@@ -3,6 +3,7 @@ import { PrismaService } from 'src/database/prisma.service';
 import { Organizers } from 'src/organizers/entities/organizer.entity';
 import { CreateEventDto } from './dto/create-event.dto';
 import { Event } from './entities/event.entity';
+import { UpdateEventDto } from './dto/update-event.dto';
 
 @Injectable()
 export class EventRepository {
@@ -36,5 +37,28 @@ export class EventRepository {
     });
 
     return newEvent as Event;
+  }
+
+  async findAllEvents() {
+    return this.prisma.event.findMany({
+      include: {
+        comments: true,
+        organizer: true,
+      },
+    });
+  }
+
+  async updateEvent(_requestBody: UpdateEventDto, _id: string): Promise<Event> {
+    const updateEvent = await this.prisma.event.update({
+      where: {
+        id: _id,
+      },
+      data: {
+        ..._requestBody,
+        eventDate: _requestBody.eventDate,
+      },
+    });
+
+    return updateEvent;
   }
 }

@@ -6,7 +6,27 @@ Content-Type: application/json
 
 {
     "maxParticipants": 3,
-    "eventName": "Festival de pipa",
-    "location": "Rua das flores",
-    "description": "Pequeno campeonato de pipas"
+    "eventName": "Festival de commida",
+    "location": "Rua das comidas",
+    "description": "Pequeno campeonato de comidas"
+}
+
+###
+
+# @name find-all-events
+GET {{baseURL}}/events
+Content-Type: application/json
+
+###
+
+# @name update-event
+PUT {{baseURL}}/events/update/2e34ec5c-018e-4f5e-bfd6-f77982a75a51
+Content-Type: application/json
+
+{
+    "maxParticipants": 3,
+    "eventName": "Festival de commida-2",
+    "location": "Rua das comidas nº100",
+    "description": "Pequeno campeonato de comidas 200",
+    "eventDate":"{{$datetime iso8601}}"
 }

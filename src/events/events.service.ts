@@ -2,6 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { EventRepository } from './events.repository';
 import { Event } from './entities/event.entity';
+import { UpdateEventDto } from './dto/update-event.dto';
 
 @Injectable()
 export class EventsService {
@@ -23,5 +24,18 @@ export class EventsService {
     );
 
     return newEvent;
+  }
+
+  async findAll() {
+    return this.eventRepository.findAllEvents();
+  }
+
+  async updateEvent(_id: string, _requestBody: UpdateEventDto) {
+    const updateEvent = await this.eventRepository.updateEvent(
+      _requestBody,
+      _id,
+    );
+
+    return updateEvent;
   }
 }
