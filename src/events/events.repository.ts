@@ -61,4 +61,12 @@ export class EventRepository {
 
     return updateEvent;
   }
+
+  async deleteEvent(_id: string): Promise<void> {
+    await this.prisma.event.delete({
+      where: {
+        id: _id,
+      },
+    });
+  }
 }

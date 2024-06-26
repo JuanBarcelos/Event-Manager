@@ -41,4 +41,37 @@ export class AttendeeRepository {
 
     return newEvent as Attendees;
   }
+
+  async findAttendeesByEventAndParticipant(
+    _eventId: string,
+    _participantId: string,
+  ): Promise<Attendees> {
+    return this.prisma.attendees.findUnique({
+      where: {
+        Unique_Event_Participant: {
+          eventId: _eventId,
+          participantId: _participantId,
+        },
+      },
+    });
+  }
+
+  async cancelParticipationInTheEvent(_id: string): Promise<void> {
+    await this.prisma.attendees.delete({
+      where: {
+        id: _id,
+      },
+    });
+  }
+
+  async findAllRegistrations(_participantId: string) {
+    return await this.prisma.attendees.findMany({
+      where: {
+        participantId: _participantId,
+      },
+      include: {
+        event: true,
+      },
+    });
+  }
 }

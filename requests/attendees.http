@@ -5,6 +5,25 @@ POST {{baseURL}}/attendees/register-event
 Content-Type: application/json
 
 {
-    "participantId": "143157b0-0dbf-46a0-b78e-4b856d0b273e",
-    "eventId": "ad111985-d8e8-45d7-8cd6-cee13f2f9939"
+    "participantId": "712cc58e-4927-4e65-ae45-467574f59dac",
+    "eventId": "f0346839-60d5-4bb2-993f-38e70c5c4e7f"
 }
+
+###
+
+# @name find-unique-registration
+GET {{baseURL}}/attendees/712cc58e-4927-4e65-ae45-467574f59dac/event-registration/f0346839-60d5-4bb2-993f-38e70c5c4e7f
+Content-Type: application/json
+
+###
+
+# @name find-all
+GET {{baseURL}}/attendees/712cc58e-4927-4e65-ae45-467574f59dac
+Content-Type: application/json
+
+###
+
+# @name find-unique-registration
+DELETE  {{baseURL}}/attendees/712cc58e-4927-4e65-ae45-467574f59dac/cancel-registration/f0346839-60d5-4bb2-993f-38e70c5c4e7f
+Content-Type: application/json
+

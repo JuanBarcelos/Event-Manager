@@ -6,9 +6,9 @@ Content-Type: application/json
 
 {
     "maxParticipants": 3,
-    "eventName": "Festival de commida",
-    "location": "Rua das comidas",
-    "description": "Pequeno campeonato de comidas"
+    "eventName": "Festival de jogos",
+    "location": "Rua dos jogos",
+    "description": "Pequeno campeonato de fifa"
 }
 
 ###
@@ -30,3 +30,9 @@ Content-Type: application/json
     "description": "Pequeno campeonato de comidas 200",
     "eventDate":"{{$datetime iso8601}}"
 }
+
+###
+
+# @name cancel-event
+DELETE {{baseURL}}/events/ad111985-d8e8-45d7-8cd6-cee13f2f9939/cancel
+Content-Type: application/json

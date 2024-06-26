@@ -38,4 +38,8 @@ export class EventsService {
 
     return updateEvent;
   }
+
+  async cancelEvent(_id: string): Promise<void> {
+    return await this.eventRepository.deleteEvent(_id);
+  }
 }

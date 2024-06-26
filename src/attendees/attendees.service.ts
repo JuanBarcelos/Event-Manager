@@ -40,4 +40,19 @@ export class AttendeesService {
 
     return newAttendees;
   }
+
+  async findRegistration(userId: string, eventId: string) {
+    return this.attendeesRepository.findAttendeesByEventAndParticipant(
+      eventId,
+      userId,
+    );
+  }
+
+  async cancelParticipant(_id: string): Promise<void> {
+    await this.attendeesRepository.cancelParticipationInTheEvent(_id);
+  }
+
+  async findAll(_participantId: string) {
+    return await this.attendeesRepository.findAllRegistrations(_participantId);
+  }
 }
