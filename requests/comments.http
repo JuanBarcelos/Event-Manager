@@ -1,0 +1,26 @@
+@baseURL = http://localhost:3000
+
+# @name create-comment
+POST {{baseURL}}/comments/f0346839-60d5-4bb2-993f-38e70c5c4e7f
+?userId=712cc58e-4927-4e65-ae45-467574f59dac
+Content-Type: application/json
+
+{
+    "commentText": "Esse evento foi bom demais eu super recomendo."
+}
+
+###
+
+# @name update-comment
+PATCH {{baseURL}}/comments/298aa1f3-e761-470d-b379-e6586b9d4a96
+Content-Type: application/json
+
+{
+    "commentText": "Evento ruim de mais."
+}
+
+###
+
+# @name delete-comment
+DELETE  {{baseURL}}/comments/298aa1f3-e761-470d-b379-e6586b9d4a96/delete
+Content-Type: application/json

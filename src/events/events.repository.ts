@@ -42,8 +42,16 @@ export class EventRepository {
   async findAllEvents() {
     return this.prisma.event.findMany({
       include: {
-        comments: true,
-        organizer: true,
+        comments: {
+          select: {
+            commentText: true,
+          },
+        },
+        organizer: {
+          select: {
+            fullName: true,
+          },
+        },
       },
     });
   }
