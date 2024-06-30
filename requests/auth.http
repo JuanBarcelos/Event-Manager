@@ -1,0 +1,8 @@
+# @name login
+POST {{baseURL}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "Pitty@gmail.com",
+    "password": "032194Jb"
+}

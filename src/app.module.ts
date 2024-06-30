@@ -5,6 +5,7 @@ import { ParticipantsModule } from './participants/participants.module';
 import { OrganizersModule } from './organizers/organizers.module';
 import { AttendeesModule } from './attendees/attendees.module';
 import { CommentsModule } from './comments/comments.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CommentsModule } from './comments/comments.module';
     OrganizersModule,
     AttendeesModule,
     CommentsModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

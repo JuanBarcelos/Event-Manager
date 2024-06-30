@@ -109,4 +109,8 @@ export class UsersService {
       'This email does not exist, try with an email already registered.',
     );
   }
+
+  async findUserByEmail(_email: string) {
+    return await this.userRepository.findByEmail(_email);
+  }
 }

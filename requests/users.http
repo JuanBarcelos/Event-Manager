@@ -19,26 +19,27 @@ PATCH  {{baseURL}}/users/profile/764e130e-fac6-4327-aeb3-9e6223457d37
 Content-Type: application/json
 
 {
-    "userName":"AdrieleBarcelos",
-    "email":"adriele@gmail.com",
-    "fullName":"Adriele Santos Barcelos",
-    "bio": "Sou esposa do dono desta API",
-    "website": "www.adrielebarcelos.com.br",
+    "userName":"PittyBarcelos",
+    "email":"Pitty@gmail.com",
+    "fullName":"Pitty Santos Barcelos",
+    "bio": "Sou a dog do dono desta API",
+    "website": "www.PittyBarcelos.com.br",
     "organizationName": "Nova Vida"
 }
 
 ###
 
 # @name update-user-participant-profile
-PATCH  {{baseURL}}/users/profile/143157b0-0dbf-46a0-b78e-4b856d0b273e
+PATCH  {{baseURL}}/users/profile
+Authorization: {{token}}
 Content-Type: application/json
 
 {
-    "userName":"Juan_Barcelos",
-    "email":"juan@gmail.com",
-    "fullName":"Juna Barcelos Update",
-    "bio": "Esta sendo dificil fazer esta API",
-    "website": "www.juan.com.br",
+    "userName":"PittyBarcelos",
+    "email":"Pitty@gmail.com",
+    "fullName":"Pitty Santos Barcelos",
+    "bio": "Sou a dog do dono desta API",
+    "website": "www.PittyBarcelos.com.br",
     "organizationName": ""
 }
 

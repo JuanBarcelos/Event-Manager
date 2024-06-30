@@ -21,5 +21,6 @@ import { ParticipantsRepository } from 'src/participants/participants.repository
     ParticipantsService,
     ParticipantsRepository,
   ],
+  exports: [UsersService],
 })
 export class UsersModule {}

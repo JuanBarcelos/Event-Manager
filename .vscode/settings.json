@@ -1,11 +1,12 @@
 {
-    "sqltools.useNodeRuntime": true,
-    "sqltools.connections": [
-        {
-            "previewLimit": 50,
-            "driver": "SQLite",
-            "name": "Event-Manager",
-            "database": "\\\\wsl.localhost\\Ubuntu\\home\\juanbarcelos\\codehub\\event-manager\\prisma\\dev.db"
-        }
-    ]
+   "rest-client.environmentVariables": {
+    "local": {
+        "baseURL": "http://localhost:3000",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcxMmNjNThlLTQ5MjctNGU2NS1hZTQ1LTQ2NzU3NGY1OWRhYyIsImlhdCI6MTcxOTcxMDY2MCwiZXhwIjoxNzE5Nzk3MDYwfQ.qbivl4fMEYftG1rX1_wzvPbmlITe5XNGiU30OSKN1C8",
+    },
+    "production": {
+        "baseURL": "",
+        "token": "",
+    }
+}
 }
