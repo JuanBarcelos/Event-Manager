@@ -3,24 +3,14 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { UsersRepository } from './users.repository';
 import { PrismaService } from 'src/database/prisma.service';
-import { OrganizersService } from 'src/organizers/organizers.service';
 import { OrganizersModule } from 'src/organizers/organizers.module';
-import { OrganizersRepository } from 'src/organizers/organizers.repository';
-import { ParticipantsService } from 'src/participants/participants.service';
-import { ParticipantsRepository } from 'src/participants/participants.repository';
+import { ParticipantsModule } from 'src/participants/participants.module';
+import { AppService } from 'src/app.service';
 
 @Module({
-  imports: [OrganizersModule],
+  imports: [OrganizersModule, ParticipantsModule],
   controllers: [UsersController],
-  providers: [
-    UsersService,
-    UsersRepository,
-    PrismaService,
-    OrganizersService,
-    OrganizersRepository,
-    ParticipantsService,
-    ParticipantsRepository,
-  ],
+  providers: [UsersService, UsersRepository, PrismaService, AppService],
   exports: [UsersService],
 })
 export class UsersModule {}

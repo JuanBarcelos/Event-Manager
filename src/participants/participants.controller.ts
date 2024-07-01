@@ -1,6 +1,15 @@
-import { Controller, Post, Body, Param, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { ParticipantsService } from './participants.service';
 import { CreateParticipantDto } from './dto/create-participant.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { Request as request } from 'express';
 
 @Controller('participants')
 export class ParticipantsController {
@@ -11,8 +20,9 @@ export class ParticipantsController {
     return this.participantsService.create(createParticipantDto);
   }
 
-  @Get(':userId')
-  findUniqueParticipant(@Param('userId') userId: string) {
-    return this.participantsService.findByUnique(userId);
+  @Get()
+  @UseGuards(AuthGuard)
+  findUniqueParticipant(@Request() req: request) {
+    return this.participantsService.findByUnique(req);
   }
 }

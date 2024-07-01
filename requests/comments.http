@@ -2,7 +2,7 @@
 
 # @name create-comment
 POST {{baseURL}}/comments/f0346839-60d5-4bb2-993f-38e70c5c4e7f
-?userId=712cc58e-4927-4e65-ae45-467574f59dac
+Authorization: {{token}}
 Content-Type: application/json
 
 {
@@ -12,7 +12,8 @@ Content-Type: application/json
 ###
 
 # @name update-comment
-PATCH {{baseURL}}/comments/298aa1f3-e761-470d-b379-e6586b9d4a96
+PATCH {{baseURL}}/comments/50830996-ecee-4086-9abb-d0506d46c49e
+Authorization: {{token}}
 Content-Type: application/json
 
 {
@@ -22,5 +23,6 @@ Content-Type: application/json
 ###
 
 # @name delete-comment
-DELETE  {{baseURL}}/comments/298aa1f3-e761-470d-b379-e6586b9d4a96/delete
+DELETE  {{baseURL}}/comments/delete/50830996-ecee-4086-9abb-d0506d46c49e
+Authorization: {{token}}
 Content-Type: application/json

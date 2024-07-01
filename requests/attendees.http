@@ -1,29 +1,28 @@
 @baseURL = http://localhost:3000
 
 # @name verifyParticipantAndRegisterEvent
-POST {{baseURL}}/attendees/register-event
+POST {{baseURL}}/attendees/register-event/41064d50-7dbe-4c46-b5fa-ec32aff202e4
+Authorization: {{token}}
 Content-Type: application/json
-
-{
-    "participantId": "712cc58e-4927-4e65-ae45-467574f59dac",
-    "eventId": "f0346839-60d5-4bb2-993f-38e70c5c4e7f"
-}
 
 ###
 
 # @name find-unique-registration
-GET {{baseURL}}/attendees/712cc58e-4927-4e65-ae45-467574f59dac/event-registration/f0346839-60d5-4bb2-993f-38e70c5c4e7f
+GET {{baseURL}}/attendees/find-events-registration/41064d50-7dbe-4c46-b5fa-ec32aff202e4
+Authorization: {{token}}
 Content-Type: application/json
 
 ###
 
 # @name find-all
 GET {{baseURL}}/attendees/712cc58e-4927-4e65-ae45-467574f59dac
+Authorization: {{token}}
 Content-Type: application/json
 
 ###
 
 # @name find-unique-registration
-DELETE  {{baseURL}}/attendees/712cc58e-4927-4e65-ae45-467574f59dac/cancel-registration/f0346839-60d5-4bb2-993f-38e70c5c4e7f
+DELETE  {{baseURL}}/attendees/cancel-registration/41064d50-7dbe-4c46-b5fa-ec32aff202e4
+Authorization: {{token}}
 Content-Type: application/json
 

@@ -1,26 +1,26 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { EventRepository } from './events.repository';
 import { Event } from './entities/event.entity';
 import { UpdateEventDto } from './dto/update-event.dto';
+import { AppService } from 'src/app.service';
+import { Request } from 'express';
 
 @Injectable()
 export class EventsService {
-  constructor(private readonly eventRepository: EventRepository) {}
+  constructor(
+    private readonly eventRepository: EventRepository,
+    private readonly appService: AppService,
+  ) {}
 
   async verifyOrganizerAndCreateEvent(
-    _id: string,
+    _request: Request,
     _createEventDto: CreateEventDto,
   ): Promise<Event> {
-    const existingHostUser = await this.eventRepository.findByOrganizer(_id);
-
-    if (!existingHostUser) {
-      throw new ForbiddenException('User is not an organizer');
-    }
-
+    const user = await this.appService.decodedRequestToken(_request);
     const newEvent = await this.eventRepository.createEvent(
       _createEventDto,
-      existingHostUser.userId,
+      user.id,
     );
 
     return newEvent;

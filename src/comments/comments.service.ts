@@ -2,18 +2,24 @@ import { Injectable } from '@nestjs/common';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { CommentsRepository } from './comments.repositories';
+import { Request } from 'express';
+import { AppService } from 'src/app.service';
 
 @Injectable()
 export class CommentsService {
-  constructor(private readonly commentRepository: CommentsRepository) {}
+  constructor(
+    private readonly commentRepository: CommentsRepository,
+    private readonly appService: AppService,
+  ) {}
 
   async create(
-    _userId: string,
+    _request: Request,
     _eventId: string,
     _createCommentDto: CreateCommentDto,
   ) {
+    const user = await this.appService.decodedRequestToken(_request);
     const comment = await this.commentRepository.createComment(
-      _userId,
+      user.id,
       _eventId,
       _createCommentDto,
     );

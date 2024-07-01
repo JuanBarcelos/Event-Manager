@@ -1,31 +1,34 @@
 @baseURL = http://localhost:3000
 
 # @name createEventIfOrganizer
-POST {{baseURL}}/events/create-event/764e130e-fac6-4327-aeb3-9e6223457d37
+POST {{baseURL}}/events/create
+Authorization: {{token}}
 Content-Type: application/json
 
 {
     "maxParticipants": 3,
-    "eventName": "Festival de jogos",
+    "eventName": "Festival de jogos 2",
     "location": "Rua dos jogos",
-    "description": "Pequeno campeonato de fifa"
+    "description": "Pequeno campeonato de Lol"
 }
 
 ###
 
 # @name find-all-events
 GET {{baseURL}}/events
+Authorization: {{token}}
 Content-Type: application/json
 
 ###
 
 # @name update-event
-PUT {{baseURL}}/events/update/2e34ec5c-018e-4f5e-bfd6-f77982a75a51
+PUT {{baseURL}}/events/update/e72236f3-382e-41bc-8ccd-e4ca9b2571eb
+Authorization: {{token}}
 Content-Type: application/json
 
 {
     "maxParticipants": 3,
-    "eventName": "Festival de commida-2",
+    "eventName": "Festival de commida-3",
     "location": "Rua das comidas nº100",
     "description": "Pequeno campeonato de comidas 200",
     "eventDate":"{{$datetime iso8601}}"
@@ -34,5 +37,6 @@ Content-Type: application/json
 ###
 
 # @name cancel-event
-DELETE {{baseURL}}/events/ad111985-d8e8-45d7-8cd6-cee13f2f9939/cancel
+DELETE {{baseURL}}/events/cancel/ad111985-d8e8-45d7-8cd6-cee13f2f9939
+Authorization: {{token}}
 Content-Type: application/json

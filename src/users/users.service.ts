@@ -8,6 +8,8 @@ import { OrganizersService } from 'src/organizers/organizers.service';
 import { ParticipantsService } from 'src/participants/participants.service';
 import { UpdateUserProfile } from './dto/update-profile.dto';
 import { DeleteUserAccount } from './dto/delete-user.dto';
+import { Request } from 'express';
+import { AppService } from 'src/app.service';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +17,7 @@ export class UsersService {
     private readonly userRepository: UsersRepository,
     private readonly organizersService: OrganizersService,
     private readonly participantsService: ParticipantsService,
+    private readonly appService: AppService,
   ) {}
 
   async create(_createUserDto: CreateUserDto): Promise<User> {
@@ -50,14 +53,16 @@ export class UsersService {
   }
 
   async update(
-    userId: string,
+    _request: Request,
     _updateUserProfile: UpdateUserProfile,
   ): Promise<any> {
     const { fullName, userName, email, bio, organizationName, website } =
       _updateUserProfile;
+    const user = await this.appService.decodedRequestToken(_request);
 
-    const participantExists =
-      await this.participantsService.findByUnique(userId);
+    const participantExists = await this.participantsService.findByUnique(
+      user.id,
+    );
 
     if (participantExists) {
       await this.participantsService.update(participantExists.userId, {
@@ -65,7 +70,7 @@ export class UsersService {
         website,
       });
 
-      const userUpdate = await this.userRepository.updateUserProfile(userId, {
+      const userUpdate = await this.userRepository.updateUserProfile(user.id, {
         userName,
         email,
         fullName,
@@ -73,7 +78,9 @@ export class UsersService {
 
       return userUpdate;
     } else {
-      const organizerExists = await this.organizersService.findByUnique(userId);
+      const organizerExists = await this.organizersService.findByUnique(
+        user.id,
+      );
 
       if (organizerExists) {
         await this.organizersService.update(organizerExists.userId, {
@@ -82,11 +89,14 @@ export class UsersService {
           website,
         });
 
-        const userUpdate = await this.userRepository.updateUserProfile(userId, {
-          userName,
-          email,
-          fullName,
-        });
+        const userUpdate = await this.userRepository.updateUserProfile(
+          user.id,
+          {
+            userName,
+            email,
+            fullName,
+          },
+        );
 
         return userUpdate;
       }
@@ -94,17 +104,15 @@ export class UsersService {
   }
 
   async deleteAccount(
-    _userId: string,
+    _request: Request,
     _requestBody: DeleteUserAccount,
   ): Promise<void> {
+    const user = await this.appService.decodedRequestToken(_request);
     const { email } = _requestBody;
-
     const userWithExistingEmail = await this.userRepository.findByEmail(email);
-
     if (userWithExistingEmail !== null) {
-      return await this.userRepository.deleteUserAccount(_userId);
+      return await this.userRepository.deleteUserAccount(user.id);
     }
-
     throw new BadRequestException(
       'This email does not exist, try with an email already registered.',
     );

@@ -5,17 +5,18 @@ POST {{baseURL}}/users
 Content-Type: application/json
 
 {
-    "userName":"Pitty",
-    "email":"Pitty@gmail.com",
+    "userName":"ADM",
+    "email":"adm-organized@gmail.com",
     "password":"032194Jb",
-    "fullName":"Pitty",
-    "role": "attendees"
+    "fullName":"admim",
+    "role": "organized"
 }
 
 ###
 
 # @name update-user-organizer-profile
-PATCH  {{baseURL}}/users/profile/764e130e-fac6-4327-aeb3-9e6223457d37
+PATCH  {{baseURL}}/users/profile
+Authorization: {{token}}
 Content-Type: application/json
 
 {
@@ -46,7 +47,8 @@ Content-Type: application/json
 ###
 
 # @name delete-user-account
-DELETE {{baseURL}}/users/delete/account/2f5b268d-e330-42c6-9172-b1e87319618e
+DELETE {{baseURL}}/users/delete/account
+Authorization: {{token}}
 Content-Type: application/json
 
 {

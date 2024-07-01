@@ -1,5 +1,6 @@
 @baseURL = http://localhost:3000
 
 # @name find-organizer
-GET {{baseURL}}/organizers/764e130e-fac6-4327-aeb3-9e6223457d37
+GET {{baseURL}}/organizers
+Authorization: {{token}}
 Content-Type: application/json

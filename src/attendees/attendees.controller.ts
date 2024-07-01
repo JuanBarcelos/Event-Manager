@@ -1,24 +1,40 @@
-import { Controller, Post, Body, Get, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Param,
+  Delete,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { AttendeesService } from './attendees.service';
-import { CreateAttendeeDto } from './dto/create-attendee.dto';
+import { Roles } from 'src/auth/roles.decorator';
+import { UserRole } from 'src/users/entities/user.enum';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { Request as request } from 'express';
 
 @Controller('attendees')
 export class AttendeesController {
   constructor(private readonly attendeesService: AttendeesService) {}
 
-  @Post('register-event')
-  register(@Body() createAttendeeDto: CreateAttendeeDto) {
+  @Post('register-event/:eventId')
+  @Roles(UserRole.ATTENDEE)
+  @UseGuards(AuthGuard)
+  register(@Request() req: request, @Param('eventId') eventId: string) {
     return this.attendeesService.verifyParticipantAndRegisterEvent(
-      createAttendeeDto,
+      req,
+      eventId,
     );
   }
 
-  @Get(':userId/event-registration/:eventId')
+  @Get('find-events-registration/:eventId')
+  @Roles(UserRole.ATTENDEE)
+  @UseGuards(AuthGuard)
   async findEventRegistration(
-    @Param('userId') userId: string,
+    @Request() req: request,
     @Param('eventId') eventId: string,
   ) {
-    return await this.attendeesService.findRegistration(userId, eventId);
+    return await this.attendeesService.findRegistration(req, eventId);
   }
 
   @Get(':participantId')
@@ -26,16 +42,13 @@ export class AttendeesController {
     return await this.attendeesService.findAll(participantId);
   }
 
-  @Delete(':userId/cancel-registration/:eventId')
+  @Delete('cancel-registration/:eventId')
+  @Roles(UserRole.ATTENDEE)
+  @UseGuards(AuthGuard)
   async cancelRegistration(
-    @Param('userId') userId: string,
+    @Request() req: request,
     @Param('eventId') eventId: string,
   ) {
-    const attendee = await this.attendeesService.findRegistration(
-      userId,
-      eventId,
-    );
-
-    return await this.attendeesService.cancelParticipant(attendee.id);
+    return await this.attendeesService.cancelParticipant(req, eventId);
   }
 }

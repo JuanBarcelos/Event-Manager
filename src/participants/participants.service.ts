@@ -3,11 +3,14 @@ import { CreateParticipantDto } from './dto/create-participant.dto';
 import { ParticipantsRepository } from './participants.repository';
 import { UpdateParticipantDto } from './dto/update-participant.dto';
 import { Participants } from './entities/participant.entity';
+import { Request } from 'express';
+import { AppService } from 'src/app.service';
 
 @Injectable()
 export class ParticipantsService {
   constructor(
     private readonly participantsRepository: ParticipantsRepository,
+    private readonly appService: AppService,
   ) {}
 
   async create(_createParticipantDto: CreateParticipantDto): Promise<void> {
@@ -21,8 +24,9 @@ export class ParticipantsService {
     await this.participantsRepository.update(id, data);
   }
 
-  async findByUnique(userId: string): Promise<Participants> {
-    const participant = this.participantsRepository.findUserById(userId);
+  async findByUnique(_request: Request): Promise<Participants> {
+    const user = await this.appService.decodedRequestToken(_request);
+    const participant = this.participantsRepository.findUserById(user.id);
     return participant;
   }
 }
