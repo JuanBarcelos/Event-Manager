@@ -15,11 +15,15 @@ export class AttendeesService {
     _request: Request,
     _eventId: string,
   ): Promise<Attendees> {
+    const event = await this.attendeesRepository.findByEvent(_eventId);
+    if (!event) throw new BadRequestException('Event is not an exists');
+
+    const totalSubscribers = event._count.participants;
+    if (totalSubscribers >= event.maxParticipants) {
+      throw new BadRequestException('Maximum Event Registration Capacity');
+    }
+
     const user = await this.appService.decodedRequestToken(_request);
-    const existingEvent = await this.attendeesRepository.findByEvent(_eventId);
-
-    if (!existingEvent) throw new BadRequestException('Event is not an exists');
-
     const newAttendees = await this.attendeesRepository.registerAttendee(
       user.id,
       _eventId,

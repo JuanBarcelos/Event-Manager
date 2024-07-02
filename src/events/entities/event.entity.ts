@@ -1,5 +1,5 @@
+import { Attendees } from 'src/attendees/entities/attendee.entity';
 import { Comments } from 'src/comments/entities/comment.entity';
-import { Participants } from 'src/participants/entities/participant.entity';
 
 export class Event {
   id: string;
@@ -11,6 +11,6 @@ export class Event {
   maxParticipants?: number;
   createdAt?: Date;
   updatedAt?: Date;
-  participants?: Participants[];
+  participants?: Attendees[];
   comments?: Comments[];
 }

@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { Attendees } from './entities/attendee.entity';
 import { PrismaService } from 'src/database/prisma.service';
 import { Participants } from 'src/participants/entities/participant.entity';
-import { Event } from 'src/events/entities/event.entity';
 
 @Injectable()
 export class AttendeeRepository {
@@ -18,10 +17,17 @@ export class AttendeeRepository {
     return participant;
   }
 
-  async findByEvent(eventId: string): Promise<Event> {
+  async findByEvent(eventId: string) {
     const event = await this.prisma.event.findUnique({
       where: {
         id: eventId,
+      },
+      include: {
+        _count: {
+          select: {
+            participants: true,
+          },
+        },
       },
     });
 
