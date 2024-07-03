@@ -12,14 +12,17 @@ import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/users/entities/user.enum';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { Request as request } from 'express';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Attendees')
 @Controller('attendees')
 export class AttendeesController {
   constructor(private readonly attendeesService: AttendeesService) {}
 
   @Post('register-event/:eventId')
-  @Roles(UserRole.ATTENDEE)
   @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @Roles(UserRole.ATTENDEE)
   register(@Request() req: request, @Param('eventId') eventId: string) {
     return this.attendeesService.verifyParticipantAndRegisterEvent(
       req,
@@ -28,8 +31,9 @@ export class AttendeesController {
   }
 
   @Get('find-events-registration/:eventId')
-  @Roles(UserRole.ATTENDEE)
   @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @Roles(UserRole.ATTENDEE)
   async findEventRegistration(
     @Request() req: request,
     @Param('eventId') eventId: string,
@@ -43,8 +47,9 @@ export class AttendeesController {
   }
 
   @Delete('cancel-registration/:eventId')
-  @Roles(UserRole.ATTENDEE)
   @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @Roles(UserRole.ATTENDEE)
   async cancelRegistration(
     @Request() req: request,
     @Param('eventId') eventId: string,

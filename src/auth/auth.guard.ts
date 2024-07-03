@@ -23,15 +23,15 @@ export class AuthGuard implements CanActivate {
       });
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers
-      request['userId'] = payload;
+      request['user'] = payload;
     } catch {
       throw new UnauthorizedException('invalid token');
     }
     return true;
   }
 
-  private extractTokenFromHeader(request: Request): string | undefined {
-    const [token] = request.headers.authorization?.split(' ') ?? [];
-    return token;
+  private extractTokenFromHeader(_request: Request): string | undefined {
+    const [type, token] = _request.headers.authorization?.split(' ') ?? [];
+    return type === 'Bearer' ? token : undefined;
   }
 }

@@ -10,7 +10,9 @@ import { OrganizersService } from './organizers.service';
 import { CreateOrganizerDto } from './dto/create-organizer.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { Request as request } from 'express';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Organizers')
 @Controller('organizers')
 export class OrganizersController {
   constructor(private readonly organizersService: OrganizersService) {}
@@ -21,6 +23,7 @@ export class OrganizersController {
   }
 
   @Get()
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   findUniqueParticipant(@Request() req: request) {
     return this.organizersService.findByUnique(req);

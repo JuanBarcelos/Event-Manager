@@ -13,8 +13,11 @@ import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { Request as request } from 'express';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Comments')
 @Controller('comments')
+@ApiBearerAuth()
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 

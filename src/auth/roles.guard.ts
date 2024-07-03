@@ -7,16 +7,16 @@ import {
 import { Reflector } from '@nestjs/core';
 import { UserRole } from '../users/entities/user.enum';
 import { ROLES_KEY } from './roles.decorator';
-import { JwtService } from '@nestjs/jwt';
+import { AppService } from 'src/app.service';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
-    private jwtService: JwtService,
+    private appService: AppService,
   ) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(
       ROLES_KEY,
       [context.getHandler(), context.getClass()],
@@ -25,11 +25,8 @@ export class RolesGuard implements CanActivate {
       return true;
     }
     const request = context.switchToHttp().getRequest();
-    const [token] = request.headers.authorization?.split(' ') ?? [];
 
-    if (!token) throw new UnauthorizedException('Token is required');
-
-    const payload = this.jwtService.verify(token);
+    const payload = await this.appService.decodedRequestToken(request);
     const hasRole = () => requiredRoles.some((role) => payload.role === role);
 
     if (!hasRole()) throw new UnauthorizedException('Insufficient permission');

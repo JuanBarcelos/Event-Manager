@@ -1,6 +1,6 @@
 @baseURL = http://localhost:3000
 
 # @name find-participant
-GET {{baseURL}}/participants/143157b0-0dbf-46a0-b78e-4b856d0b273e
+GET {{baseURL}}/participants
 Authorization: {{token}}
 Content-Type: application/json

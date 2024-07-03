@@ -13,7 +13,9 @@ import { UpdateUserProfile } from './dto/update-profile.dto';
 import { DeleteUserAccount } from './dto/delete-user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { Request as request } from 'express';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -24,6 +26,7 @@ export class UsersController {
   }
 
   @Patch('profile')
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   update(
     @Body() updateUserProfile: UpdateUserProfile,
@@ -33,6 +36,7 @@ export class UsersController {
   }
 
   @Delete('delete/account')
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   delete(@Request() req: request, @Body() requestBody: DeleteUserAccount) {
     return this.usersService.deleteAccount(req, requestBody);

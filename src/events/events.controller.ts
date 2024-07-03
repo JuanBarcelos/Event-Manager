@@ -16,8 +16,11 @@ import { Roles } from 'src/auth/roles.decorator';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { UserRole } from 'src/users/entities/user.enum';
 import { Request as request } from 'express';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Events')
 @Controller('events')
+@ApiBearerAuth()
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
