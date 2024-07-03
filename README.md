@@ -9,6 +9,10 @@ Event Manager é uma plataforma para gerenciamento e participação em eventos c
 - SQLite (Banco de Dados)
 - Typescript
 
+## Swagger
+
+[Documentação com o Swagger](http://localhost:3000/docs "Documentação utilizando o swagger")
+
 ## Diagrama do Banco de Dados
 <img src="https://i.ibb.co/qFmBSQ4/bg.png" alt="bg" border="0">
 
