@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserProfile } from './dto/update-profile.dto';
+import { UpdateUserProfileDto } from './dto/update-profile.dto';
 import { DeleteUserAccount } from './dto/delete-user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { Request as request } from 'express';
@@ -29,10 +29,10 @@ export class UsersController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   update(
-    @Body() updateUserProfile: UpdateUserProfile,
+    @Body() updateUserProfile: UpdateUserProfileDto,
     @Request() req: request,
   ) {
-    return this.usersService.update(req, updateUserProfile);
+    return this.usersService.updateProfile(req, updateUserProfile);
   }
 
   @Delete('delete/account')

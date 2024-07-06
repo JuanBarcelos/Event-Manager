@@ -5,11 +5,11 @@ POST {{baseURL}}/users
 Content-Type: application/json
 
 {
-    "userName":"ADM",
-    "email":"adm-organized@gmail.com",
-    "password":"032194Jb",
-    "fullName":"admim",
-    "role": "organized"
+    "userName":"Admim Participant",
+    "email":"admim-participant@gmail.com",
+    "password":"00000Aa",
+    "fullName":"admim Participant",
+    "role": "attendees"
 }
 
 ###
@@ -20,12 +20,12 @@ Authorization: {{token}}
 Content-Type: application/json
 
 {
-    "userName":"PittyBarcelos",
-    "email":"Pitty@gmail.com",
-    "fullName":"Pitty Santos Barcelos",
-    "bio": "Sou a dog do dono desta API",
-    "website": "www.PittyBarcelos.com.br",
-    "organizationName": "Nova Vida"
+    "userName":"AdminParticipantUpdate",
+    "email":"admim-participant@gmail.com",
+    "fullName":"Admin Participant Update",
+    "bio": "Sou a API-UPDATE",
+    "website": "www.update.com.br",
+    "organizationName": "Lanches"
 }
 
 ###
@@ -36,12 +36,11 @@ Authorization: {{token}}
 Content-Type: application/json
 
 {
-    "userName":"PittyBarcelos",
-    "email":"Pitty@gmail.com",
-    "fullName":"Pitty Santos Barcelos",
-    "bio": "Sou a dog do dono desta API",
-    "website": "www.PittyBarcelos.com.br",
-    "organizationName": ""
+    "userName":"AdminParticipantUpdate",
+    "email":"admim-participant@gmail.com",
+    "fullName":"Admin Participant Update",
+    "bio": "Sou a API-UPDATE",
+    "website": "www.update.com.br",
 }
 
 ###
@@ -52,5 +51,5 @@ Authorization: {{token}}
 Content-Type: application/json
 
 {
-    "email":"Beatriz@gmail.com"
+    "email":""
 }

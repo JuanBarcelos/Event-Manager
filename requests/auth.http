@@ -3,6 +3,6 @@ POST {{baseURL}}/login
 Content-Type: application/json
 
 {
-    "email": "*****@gmail.com",
-    "password": "0000000Am"
+    "email": "....@....com",
+    "password": "000000Aa"
 }

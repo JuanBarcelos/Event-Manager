@@ -1,28 +1,27 @@
 @baseURL = http://localhost:3000
 
 # @name verifyParticipantAndRegisterEvent
-POST {{baseURL}}/attendees/register-event/41064d50-7dbe-4c46-b5fa-ec32aff202e4
+POST {{baseURL}}/attendees/register-event/:EventID(format: UUID)
 Authorization: {{token}}
 Content-Type: application/json
 
 ###
 
 # @name find-unique-registration
-GET {{baseURL}}/attendees/find-events-registration/41064d50-7dbe-4c46-b5fa-ec32aff202e4
+GET {{baseURL}}/attendees/find-events-registration/:EventID(format: UUID)
 Authorization: {{token}}
 Content-Type: application/json
 
 ###
 
 # @name find-all
-GET {{baseURL}}/attendees/712cc58e-4927-4e65-ae45-467574f59dac
+GET {{baseURL}}/attendees/:PArticipantID(format: UUID)
 Authorization: {{token}}
 Content-Type: application/json
 
 ###
 
 # @name find-unique-registration
-DELETE  {{baseURL}}/attendees/cancel-registration/41064d50-7dbe-4c46-b5fa-ec32aff202e4
+DELETE  {{baseURL}}/attendees/cancel-registration/:EventID(format: UUID)
 Authorization: {{token}}
 Content-Type: application/json
-

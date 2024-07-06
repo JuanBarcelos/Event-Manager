@@ -1,7 +1,7 @@
 @baseURL = http://localhost:3000
 
 # @name create-comment
-POST {{baseURL}}/comments/f0346839-60d5-4bb2-993f-38e70c5c4e7f
+POST {{baseURL}}/comments/:EventID(format: UUID)
 Authorization: {{token}}
 Content-Type: application/json
 
@@ -12,7 +12,7 @@ Content-Type: application/json
 ###
 
 # @name update-comment
-PATCH {{baseURL}}/comments/50830996-ecee-4086-9abb-d0506d46c49e
+PATCH {{baseURL}}/comments/:CommentID(format: UUID)
 Authorization: {{token}}
 Content-Type: application/json
 
@@ -23,6 +23,6 @@ Content-Type: application/json
 ###
 
 # @name delete-comment
-DELETE  {{baseURL}}/comments/delete/50830996-ecee-4086-9abb-d0506d46c49e
+DELETE  {{baseURL}}/comments/delete/:CommentID(format: UUID)
 Authorization: {{token}}
 Content-Type: application/json

@@ -22,7 +22,7 @@ Content-Type: application/json
 ###
 
 # @name update-event
-PUT {{baseURL}}/events/update/e72236f3-382e-41bc-8ccd-e4ca9b2571eb
+PUT {{baseURL}}/events/update/:EventID(format: UUID)
 Authorization: {{token}}
 Content-Type: application/json
 
@@ -37,6 +37,6 @@ Content-Type: application/json
 ###
 
 # @name cancel-event
-DELETE {{baseURL}}/events/cancel/ad111985-d8e8-45d7-8cd6-cee13f2f9939
+DELETE {{baseURL}}/events/cancel/:EventID(format: UUID)
 Authorization: {{token}}
 Content-Type: application/json

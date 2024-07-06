@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UserRole } from './entities/user.enum';
+import { UpdateUserProfileDto } from './dto/update-profile.dto';
 
 @Injectable()
 export class UsersRepository {
@@ -16,35 +17,119 @@ export class UsersRepository {
     });
   }
 
-  async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const { userName, email, password, fullName, role } = createUserDto;
+  async createUserOrganizerOrParticipant(
+    _createUserDto: CreateUserDto,
+  ): Promise<User> {
+    const { userName, email, password, fullName, role } = _createUserDto;
 
-    const newUser = await this.prisma.user.create({
-      data: {
-        userName,
-        email,
-        password,
-        fullName,
-        role,
-      },
+    const result = await this.prisma.$transaction(async (trx) => {
+      const user = await trx.user.create({
+        data: {
+          userName,
+          email,
+          password,
+          fullName,
+          role,
+        },
+        select: {
+          id: true,
+          userName: true,
+          email: true,
+          fullName: true,
+          role: true,
+        },
+      });
+
+      if (role === UserRole.ORGANIZER) {
+        await trx.organizers.create({
+          data: {
+            userId: user.id,
+          },
+        });
+
+        return user;
+      }
+
+      await trx.participants.create({
+        data: {
+          userId: user.id,
+        },
+      });
+
+      return user;
     });
 
-    return newUser as User;
+    return result as User;
   }
 
-  async updateUserProfile(userId: string, updateUserDto: UpdateUserDto) {
-    const userProfileUpdate = await this.prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: updateUserDto,
-      include: {
-        organizers: true,
-        participants: true,
-      },
+  async updateUserProfile(
+    userId: string,
+    role: string,
+    _updateUserDto: UpdateUserProfileDto,
+  ): Promise<User> {
+    const { fullName, userName, email, bio, organizationName, website } =
+      _updateUserDto;
+
+    const result = await this.prisma.$transaction(async (trx) => {
+      if (role === UserRole.ORGANIZER) {
+        const organizerProfile = await trx.user.update({
+          where: {
+            id: userId,
+          },
+          data: {
+            userName,
+            fullName,
+            email,
+            organizers: {
+              update: {
+                where: {
+                  userId,
+                },
+                data: {
+                  bio,
+                  organizationName,
+                  website,
+                },
+              },
+            },
+          },
+          include: {
+            organizers: true,
+          },
+        });
+
+        return organizerProfile;
+      }
+
+      const participantProfile = trx.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          userName,
+          fullName,
+          email,
+          participants: {
+            update: {
+              where: {
+                userId,
+              },
+              data: {
+                bio,
+                website,
+              },
+            },
+          },
+        },
+        include: {
+          participants: true,
+        },
+      });
+
+      return participantProfile;
     });
 
-    return userProfileUpdate;
+    return result as User;
   }
 
   async deleteUserAccount(userId: string): Promise<void> {

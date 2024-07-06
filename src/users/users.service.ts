@@ -3,10 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UsersRepository } from './users.repository';
 import { hash } from 'bcryptjs';
 import { User } from './entities/user.entity';
-import { UserRole } from './entities/user.enum';
-import { OrganizersService } from 'src/organizers/organizers.service';
-import { ParticipantsService } from 'src/participants/participants.service';
-import { UpdateUserProfile } from './dto/update-profile.dto';
+import { UpdateUserProfileDto } from './dto/update-profile.dto';
 import { DeleteUserAccount } from './dto/delete-user.dto';
 import { Request } from 'express';
 import { AppService } from 'src/app.service';
@@ -15,14 +12,11 @@ import { AppService } from 'src/app.service';
 export class UsersService {
   constructor(
     private readonly userRepository: UsersRepository,
-    private readonly organizersService: OrganizersService,
-    private readonly participantsService: ParticipantsService,
     private readonly appService: AppService,
   ) {}
 
   async create(_createUserDto: CreateUserDto): Promise<User> {
     const { userName, email, password, fullName, role } = _createUserDto;
-
     const userWithExistingEmail = await this.userRepository.findByEmail(email);
 
     if (userWithExistingEmail !== null) {
@@ -30,8 +24,7 @@ export class UsersService {
     }
 
     const hashedPassword = await hash(password, 8);
-
-    const newUser = await this.userRepository.createUser({
+    const newUser = await this.userRepository.createUserOrganizerOrParticipant({
       userName,
       email,
       password: hashedPassword,
@@ -39,68 +32,20 @@ export class UsersService {
       role,
     });
 
-    if (newUser.role === UserRole.ORGANIZER) {
-      await this.organizersService.create({
-        userID: newUser.id,
-      });
-    } else {
-      await this.participantsService.create({
-        userID: newUser.id,
-      });
-    }
-
     return newUser;
   }
 
-  async update(
+  async updateProfile(
     _request: Request,
-    _updateUserProfile: UpdateUserProfile,
+    _updateUserProfile: UpdateUserProfileDto,
   ): Promise<any> {
-    const { fullName, userName, email, bio, organizationName, website } =
-      _updateUserProfile;
     const user = await this.appService.decodedRequestToken(_request);
-
-    const participantExists = await this.participantsService.findByUnique(
+    const userUpdate = await this.userRepository.updateUserProfile(
       user.id,
+      user.role,
+      _updateUserProfile,
     );
-
-    if (participantExists) {
-      await this.participantsService.update(participantExists.userId, {
-        bio,
-        website,
-      });
-
-      const userUpdate = await this.userRepository.updateUserProfile(user.id, {
-        userName,
-        email,
-        fullName,
-      });
-
-      return userUpdate;
-    } else {
-      const organizerExists = await this.organizersService.findByUnique(
-        user.id,
-      );
-
-      if (organizerExists) {
-        await this.organizersService.update(organizerExists.userId, {
-          bio,
-          organizationName,
-          website,
-        });
-
-        const userUpdate = await this.userRepository.updateUserProfile(
-          user.id,
-          {
-            userName,
-            email,
-            fullName,
-          },
-        );
-
-        return userUpdate;
-      }
-    }
+    return userUpdate;
   }
 
   async deleteAccount(
